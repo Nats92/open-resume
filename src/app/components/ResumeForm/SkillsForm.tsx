@@ -1,85 +1,92 @@
+import { PlusSmallIcon } from '@heroicons/react/24/outline';
 import { Form } from "components/ResumeForm/Form";
-import {
-  BulletListTextarea,
-  InputGroupWrapper,
-} from "components/ResumeForm/Form/InputGroup";
 import { FeaturedSkillInput } from "components/ResumeForm/Form/FeaturedSkillInput";
-import { BulletListIconButton } from "components/ResumeForm/Form/IconButton";
 import { useAppDispatch, useAppSelector } from "lib/redux/hooks";
-import { selectSkills, changeSkills } from "lib/redux/resumeSlice";
 import {
-  selectShowBulletPoints,
-  changeShowBulletPoints,
-  selectThemeColor,
-} from "lib/redux/settingsSlice";
+  addSkill,
+  changeSkills,
+  changeTechnologies,
+  removeSkill,
+  selectSkillsAndTechnologies
+} from "lib/redux/resumeSlice";
+import { ResumeSkill, ResumeSkillAndTechnologies } from '../../lib/redux/types';
+import { Input } from './Form/InputGroup';
 
 export const SkillsForm = () => {
-  const skills = useAppSelector(selectSkills);
+  const { skills, infra, technologies, tools } = useAppSelector(selectSkillsAndTechnologies) || {};
   const dispatch = useAppDispatch();
-  const { featuredSkills, descriptions } = skills;
-  const form = "skills";
-  const showBulletPoints = useAppSelector(selectShowBulletPoints(form));
-  const themeColor = useAppSelector(selectThemeColor) || "#38bdf8";
+  const form = "skillsAndTechnologies";
 
-  const handleSkillsChange = (field: "descriptions", value: string[]) => {
-    dispatch(changeSkills({ field, value }));
-  };
   const handleFeaturedSkillsChange = (
     idx: number,
-    skill: string,
-    rating: number
+    field: keyof ResumeSkill,
+    value: string
   ) => {
-    dispatch(changeSkills({ field: "featuredSkills", idx, skill, rating }));
+    dispatch(changeSkills({ field, idx, value }));
   };
-  const handleShowBulletPoints = (value: boolean) => {
-    dispatch(changeShowBulletPoints({ field: form, value }));
+  const handleDeleteSkill = (idx: number) => {
+    dispatch(removeSkill({ idx }));
+  };
+
+  const handleTechnologiesChange = (
+    field: Exclude<keyof ResumeSkillAndTechnologies, 'skills'>,
+    value: string
+  ) => {
+    dispatch(changeTechnologies({ field, value }));
   };
 
   return (
     <Form form={form}>
-      <div className="col-span-full grid grid-cols-6 gap-3">
-        <div className="relative col-span-full">
-          <BulletListTextarea
-            label="Skills List"
-            labelClassName="col-span-full"
-            name="descriptions"
-            placeholder="Bullet points"
-            value={descriptions}
-            onChange={handleSkillsChange}
-            showBulletPoints={showBulletPoints}
-          />
-          <div className="absolute left-[4.5rem] top-[0.07rem]">
-            <BulletListIconButton
-              showBulletPoints={showBulletPoints}
-              onClick={handleShowBulletPoints}
-            />
-          </div>
-        </div>
-        <div className="col-span-full mb-4 mt-6 border-t-2 border-dotted border-gray-200" />
-        <InputGroupWrapper
-          label="Featured Skills (Optional)"
-          className="col-span-full"
-        >
-          <p className="mt-2 text-sm font-normal text-gray-600">
-            Featured skills is optional to highlight top skills, with more
-            circles mean higher proficiency.
-          </p>
-        </InputGroupWrapper>
+      <button
+        type="button"
+        onClick={() => {
+          dispatch(addSkill());
+        }}
+        className="flex items-center rounded-md bg-white py-2 pl-3 pr-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+      >
+        <PlusSmallIcon
+          className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
+          aria-hidden="true"
+        />
+        Add skill
+      </button>
+      {skills.map(({skill, experience}, idx) => (
+        <FeaturedSkillInput
+          key={idx}
+          className="col-span-5"
+          skill={skill}
+          experience={experience}
+          setSkillRating={(field, value) => {
+            handleFeaturedSkillsChange(idx, field, value);
+          }}
+          handleDelete={() => handleDeleteSkill(idx)}
+        />
+      ))}
 
-        {featuredSkills.map(({ skill, rating }, idx) => (
-          <FeaturedSkillInput
-            key={idx}
-            className="col-span-3"
-            skill={skill}
-            rating={rating}
-            setSkillRating={(newSkill, newRating) => {
-              handleFeaturedSkillsChange(idx, newSkill, newRating);
-            }}
-            placeholder={`Featured Skill ${idx + 1}`}
-            circleColor={themeColor}
-          />
-        ))}
-      </div>
+      <Input
+        label="Technologies"
+        labelClassName="col-span-full"
+        name="technologies"
+        placeholder="Flutter, React, Ruby on Rails, Android studio"
+        value={technologies}
+        onChange={handleTechnologiesChange}
+      />
+      <Input
+        label="Tools"
+        labelClassName="col-span-full"
+        name="tools"
+        placeholder="Jetpack, Firebase, MobX, Drift, SQLite"
+        value={tools}
+        onChange={handleTechnologiesChange}
+      />
+      <Input
+        label="Infrastructure & Task managers"
+        labelClassName="col-span-full"
+        name="infra"
+        placeholder="Jetpack, Firebase, MobX, Drift, SQLite"
+        value={infra}
+        onChange={handleTechnologiesChange}
+      />
     </Form>
   );
 };

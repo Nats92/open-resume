@@ -1,3 +1,6 @@
+const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Nextjs has an issue with pdfjs-dist which optionally uses the canvas package
@@ -11,6 +14,16 @@ const nextConfig = {
     // https://webpack.js.org/configuration/resolve/#resolvealias
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
+    config.plugins.push(
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'node_modules/devicon/icons'),
+            to: path.resolve(__dirname, './public/devicon/icons'),
+          },
+        ],
+      }),
+    );
     return config;
   },
 };

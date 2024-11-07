@@ -1,10 +1,13 @@
 export interface ResumeProfile {
   name: string;
-  email: string;
-  phone: string;
-  url: string;
   summary: string;
   location: string;
+  aboutMyself: string;
+}
+
+export interface ResumeLanguage {
+  language: string;
+  level: string;
 }
 
 export interface ResumeWorkExperience {
@@ -23,19 +26,24 @@ export interface ResumeEducation {
 }
 
 export interface ResumeProject {
-  project: string;
-  date: string;
-  descriptions: string[];
+  name: string,
+  period: string,
+  stack?: string[],
+  mainTask?: string,
+  descriptions?: string[],
+  achievements?: string[]
 }
 
-export interface FeaturedSkill {
+export interface ResumeSkill {
   skill: string;
-  rating: number;
+  experience: string | number;
 }
 
-export interface ResumeSkills {
-  featuredSkills: FeaturedSkill[];
-  descriptions: string[];
+export interface ResumeSkillAndTechnologies {
+  skills: ResumeSkill[];
+  technologies: string;
+  tools: string;
+  infra: string;
 }
 
 export interface ResumeCustom {
@@ -44,10 +52,12 @@ export interface ResumeCustom {
 
 export interface Resume {
   profile: ResumeProfile;
+  otherProjects: string;
+  languages: ResumeLanguage[];
   workExperiences: ResumeWorkExperience[];
   educations: ResumeEducation[];
   projects: ResumeProject[];
-  skills: ResumeSkills;
+  skillsAndTechnologies: ResumeSkillAndTechnologies;
   custom: ResumeCustom;
 }
 

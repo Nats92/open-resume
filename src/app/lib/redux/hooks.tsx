@@ -49,11 +49,33 @@ export const useSetInitialStore = () => {
       dispatch(setResume(mergedResumeState));
     }
     if (state.settings) {
+      // Object.entries(state.settings).reduce<Settings>((acc, [settingKey, settingValue]) => {
+      //   const key = settingKey as keyof Settings;
+      //
+      //   if (!settingValue) {
+      //     return acc;
+      //   }
+      //
+      //   if (typeof acc[key] === typeof settingValue) {
+      //     switch (typeof settingValue) {
+      //       case 'object':
+      //         if (Array.isArray(settingValue) && Array.isArray(acc[key])) {
+      //           acc[key] = [...acc[key], ...settingValue] as Settings[typeof key]
+      //         }
+      //         break;
+      //       default:
+      //         acc[key] = settingValue;
+      //     }
+      //   }
+      //
+      //   return acc;
+      // }, structuredClone(initialSettings));
+
       const mergedSettingsState = deepMerge(
         initialSettings,
         state.settings
-      ) as Settings;
+      );
       dispatch(setSettings(mergedSettingsState));
     }
-  }, []);
+  }, [dispatch]);
 };

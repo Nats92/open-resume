@@ -1,73 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import { INPUT_CLASS_NAME } from "components/ResumeForm/Form/InputGroup";
+import { ResumeSkill } from '../../../lib/redux/types';
+import { DeleteIconButton } from './IconButton';
 
 export const FeaturedSkillInput = ({
   skill,
-  rating,
+  experience,
   setSkillRating,
-  placeholder,
   className,
-  circleColor,
+  handleDelete,
 }: {
   skill: string;
-  rating: number;
-  setSkillRating: (skill: string, rating: number) => void;
-  placeholder: string;
+  experience: number | string;
+  setSkillRating: (field: keyof ResumeSkill, value: string) => void;
   className?: string;
-  circleColor?: string;
+  handleDelete?: () => void;
 }) => {
   return (
-    <div className={`flex ${className}`}>
+    <div className={`flex ${className} gap-2 align-center`}>
       <input
+        name="skill"
         type="text"
         value={skill}
-        placeholder={placeholder}
-        onChange={(e) => setSkillRating(e.target.value, rating)}
+        placeholder="Skill"
+        onChange={(e) => setSkillRating('skill', e.target.value)}
         className={INPUT_CLASS_NAME}
       />
-      <CircleRating
-        rating={rating}
-        setRating={(newRating) => setSkillRating(skill, newRating)}
-        circleColor={circleColor}
+
+      <input
+        type="text"
+        name="experience"
+        value={experience}
+        placeholder="experience"
+        onChange={(e) => setSkillRating('experience', e.target.value)}
+        className={INPUT_CLASS_NAME}
       />
-    </div>
-  );
-};
 
-const CircleRating = ({
-  rating,
-  setRating,
-  circleColor = "#38bdf8",
-}: {
-  rating: number;
-  setRating: (rating: number) => void;
-  circleColor?: string;
-}) => {
-  const numCircles = 5;
-  const [hoverRating, setHoverRating] = useState<number | null>(null);
-
-  return (
-    <div className="flex items-center p-2">
-      {[...Array(numCircles)].map((_, idx) => (
-        <div
-          className={`cursor-pointer p-0.5`}
-          key={idx}
-          onClick={() => setRating(idx)}
-          onMouseEnter={() => setHoverRating(idx)}
-          onMouseLeave={() => setHoverRating(null)}
-        >
-          <div
-            className="h-5 w-5 rounded-full transition-transform duration-200 hover:scale-[120%] "
-            style={{
-              backgroundColor:
-                (hoverRating !== null && hoverRating >= idx) ||
-                (hoverRating === null && rating >= idx)
-                  ? circleColor
-                  : "#d1d5db", //gray-300
-            }}
-          />
-        </div>
-      ))}
+      {handleDelete && (
+        <DeleteIconButton
+          onClick={handleDelete}
+          tooltipText="Delete skill"
+        />
+      )}
     </div>
   );
 };

@@ -12,10 +12,7 @@ export const END_HOME_RESUME: Resume = {
     name: "John Doe",
     summary:
       "Software engineer obsessed with building exceptional products that people love",
-    email: "hello@openresume.com",
-    phone: "123-456-7890",
     location: "NYC, NY",
-    url: "linkedin.com/in/john-doe",
   },
   workExperiences: [
     {
@@ -70,20 +67,14 @@ export const END_HOME_RESUME: Resume = {
       ],
     },
   ],
-  skills: {
-    featuredSkills: [
-      { skill: "HTML", rating: 4 },
-      { skill: "CSS", rating: 4 },
-      { skill: "Python", rating: 3 },
-      { skill: "TypeScript", rating: 3 },
-      { skill: "React", rating: 3 },
-      { skill: "C++", rating: 2 },
-    ],
-    descriptions: [
-      "Tech: React Hooks, GraphQL, Node.js, SQL, Postgres, NoSql, Redis, REST API, Git",
-      "Soft: Teamwork, Creative Problem Solving, Communication, Learning Mindset, Agile",
-    ],
-  },
+  skills: [
+    { skill: "HTML", experience: 4 },
+    { skill: "CSS", experience: 4 },
+    { skill: "Python", experience: 3 },
+    { skill: "TypeScript", experience: 3 },
+    { skill: "React", experience: 3 },
+    { skill: "C++", experience: 2 },
+  ],
   custom: {
     descriptions: [],
   },

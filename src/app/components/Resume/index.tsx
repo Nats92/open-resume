@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { ResumeIframeCSR } from "components/Resume/ResumeIFrame";
 import { ResumePDF } from "components/Resume/ResumePDF";
+import { ResumeEvrone } from "components/Resume/ResumePDF/ResumeEvrone";
 import {
   ResumeControlBarCSR,
   ResumeControlBarBorder,
@@ -16,15 +17,20 @@ import {
   useRegisterReactPDFHyphenationCallback,
 } from "components/fonts/hooks";
 import { NonEnglishFontsCSSLazyLoader } from "components/fonts/NonEnglishFontsCSSLoader";
+import { STYLE_TYPE } from './const';
+import { downloadDocx } from './download-docx';
 
-export const Resume = () => {
+const STYLE_TYPE_TO_COMPONENT = {
+  [STYLE_TYPE.default]: ResumePDF,
+  [STYLE_TYPE.evrone]: ResumeEvrone,
+}
+
+export const Resume = ({ type }: { type:  typeof STYLE_TYPE[keyof typeof STYLE_TYPE] }) => {
   const [scale, setScale] = useState(0.8);
   const resume = useAppSelector(selectResume);
   const settings = useAppSelector(selectSettings);
-  const document = useMemo(
-    () => <ResumePDF resume={resume} settings={settings} isPDF={true} />,
-    [resume, settings]
-  );
+  const PDFComponent = STYLE_TYPE_TO_COMPONENT[type];
+  const handleDownloadDocx = async () => await downloadDocx(resume, settings);
 
   useRegisterReactPDFFont();
   useRegisterReactPDFHyphenationCallback(settings.fontFamily);
@@ -41,7 +47,7 @@ export const Resume = () => {
               scale={scale}
               enablePDFViewer={DEBUG_RESUME_PDF_FLAG}
             >
-              <ResumePDF
+              <PDFComponent
                 resume={resume}
                 settings={settings}
                 isPDF={DEBUG_RESUME_PDF_FLAG}
@@ -52,8 +58,9 @@ export const Resume = () => {
             scale={scale}
             setScale={setScale}
             documentSize={settings.documentSize}
-            document={document}
+            document={<PDFComponent resume={resume} settings={settings} isPDF={true} />}
             fileName={resume.profile.name + " - Resume"}
+            handleDownloadDocx={handleDownloadDocx}
           />
         </div>
         <ResumeControlBarBorder />

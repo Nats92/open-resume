@@ -22,7 +22,7 @@ export const EducationsForm = () => {
 
   return (
     <Form form={form} addButtonText="Add School">
-      {educations.map(({ school, degree, gpa, date, descriptions }, idx) => {
+      {educations.map(({ school, degree, date, descriptions }, idx) => {
         const handleEducationChange = (
           ...[
             field,
@@ -71,14 +71,6 @@ export const EducationsForm = () => {
               name="degree"
               placeholder="Bachelor of Science in Computer Engineering"
               value={degree}
-              onChange={handleEducationChange}
-            />
-            <Input
-              label="GPA"
-              labelClassName="col-span-2"
-              name="gpa"
-              placeholder="3.81"
-              value={gpa}
               onChange={handleEducationChange}
             />
             <div className="relative col-span-full">

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   useAppSelector,
   useSaveStateToLocalStorageOnChange,
@@ -15,13 +15,15 @@ import { ThemeForm } from "components/ResumeForm/ThemeForm";
 import { CustomForm } from "components/ResumeForm/CustomForm";
 import { FlexboxSpacer } from "components/FlexboxSpacer";
 import { cx } from "lib/cx";
+import { LanguagesForm } from './LanguagesForm';
 
-const formTypeToComponent: { [type in ShowForm]: () => JSX.Element } = {
+const formTypeToComponent: { [type in ShowForm]: () => ReactElement } = {
   workExperiences: WorkExperiencesForm,
   educations: EducationsForm,
   projects: ProjectsForm,
-  skills: SkillsForm,
+  skillsAndTechnologies: SkillsForm,
   custom: CustomForm,
+  languages: LanguagesForm,
 };
 
 export const ResumeForm = () => {

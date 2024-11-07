@@ -10,21 +10,22 @@ export interface Settings {
     workExperiences: boolean;
     educations: boolean;
     projects: boolean;
-    skills: boolean;
+    skillsAndTechnologies: boolean;
     custom: boolean;
+    languages: boolean;
   };
   formToHeading: {
     workExperiences: string;
     educations: string;
     projects: string;
-    skills: string;
+    skillsAndTechnologies: string;
     custom: string;
+    languages: string;
   };
   formsOrder: ShowForm[];
   showBulletPoints: {
     educations: boolean;
     projects: boolean;
-    skills: boolean;
     custom: boolean;
   };
 }
@@ -50,21 +51,22 @@ export const initialSettings: Settings = {
     workExperiences: true,
     educations: true,
     projects: true,
-    skills: true,
+    skillsAndTechnologies: true,
     custom: false,
+    languages: true,
   },
   formToHeading: {
     workExperiences: "WORK EXPERIENCE",
     educations: "EDUCATION",
     projects: "PROJECT",
-    skills: "SKILLS",
+    skillsAndTechnologies: "SKILLS & TECHNOLOGIES",
     custom: "CUSTOM SECTION",
+    languages: "LANGUAGES",
   },
-  formsOrder: ["workExperiences", "educations", "projects", "skills", "custom"],
+  formsOrder: ["projects", "languages", "workExperiences", "educations", "skillsAndTechnologies", "custom"],
   showBulletPoints: {
     educations: true,
     projects: true,
-    skills: true,
     custom: true,
   },
 };

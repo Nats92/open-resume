@@ -7,7 +7,7 @@ import { ResumeProfile } from "lib/redux/types";
 export const ProfileForm = () => {
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
-  const { name, email, phone, url, summary, location } = profile;
+  const { name, summary, location, aboutMyself } = profile;
 
   const handleProfileChange = (field: keyof ResumeProfile, value: string) => {
     dispatch(changeProfile({ field, value }));
@@ -33,35 +33,19 @@ export const ProfileForm = () => {
           onChange={handleProfileChange}
         />
         <Input
-          label="Email"
-          labelClassName="col-span-4"
-          name="email"
-          placeholder="hello@khanacademy.org"
-          value={email}
-          onChange={handleProfileChange}
-        />
-        <Input
-          label="Phone"
-          labelClassName="col-span-2"
-          name="phone"
-          placeholder="(123)456-7890"
-          value={phone}
-          onChange={handleProfileChange}
-        />
-        <Input
-          label="Website"
-          labelClassName="col-span-4"
-          name="url"
-          placeholder="linkedin.com/in/khanacademy"
-          value={url}
-          onChange={handleProfileChange}
-        />
-        <Input
           label="Location"
-          labelClassName="col-span-2"
+          labelClassName="col-span-full"
           name="location"
-          placeholder="NYC, NY"
+          placeholder="Moscow Russia (GMT+3)"
           value={location}
+          onChange={handleProfileChange}
+        />
+        <Textarea
+          label="About myself"
+          labelClassName="col-span-full"
+          name="aboutMyself"
+          placeholder="Something about myself"
+          value={aboutMyself}
           onChange={handleProfileChange}
         />
       </div>

@@ -1,8 +1,10 @@
-import { Text, View, Link } from "@react-pdf/renderer";
+import { Text, View, Link, Image } from "@react-pdf/renderer";
 import type { Style } from "@react-pdf/types";
 import { styles, spacing } from "components/Resume/ResumePDF/styles";
 import { DEBUG_RESUME_PDF_FLAG } from "lib/constants";
 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
+import NextImage from 'next/image';
+import { ICON_NAME_TO_UNICODE } from '../../const';
 
 export const ResumePDFSection = ({
   themeColor,
@@ -142,34 +144,47 @@ export const ResumePDFLink = ({
 
 export const ResumeFeaturedSkill = ({
   skill,
-  rating,
-  themeColor,
+  experience,
   style = {},
 }: {
   skill: string;
-  rating: number;
-  themeColor: string;
+  experience: number;
   style?: Style;
 }) => {
-  const numCircles = 5;
-
   return (
     <View style={{ ...styles.flexRow, alignItems: "center", ...style }}>
       <ResumePDFText style={{ marginRight: spacing[0.5] }}>
         {skill}
       </ResumePDFText>
-      {[...Array(numCircles)].map((_, idx) => (
-        <View
-          key={idx}
-          style={{
-            height: "9pt",
-            width: "9pt",
-            marginLeft: "2.25pt",
-            backgroundColor: rating >= idx ? themeColor : "#d9d9d9",
-            borderRadius: "100%",
-          }}
-        />
-      ))}
+
+      <ResumePDFText style={{ marginRight: spacing[0.5] }}>
+        {experience}
+      </ResumePDFText>
     </View>
+  );
+};
+
+export const ResumePDFImage = ({
+  src,
+  isPDF,
+  alt,
+  width,
+  height,
+  style = {},
+}: {
+  src: string;
+  isPDF: boolean;
+  alt: string;
+  width: number;
+  height: number;
+  style?: Style;
+}) => {
+  if (isPDF) {
+    return (
+      <Image src={src} style={{ width: `${width}px`, height: `${height}px`, ...style }} />
+    );
+  }
+  return (
+    <NextImage src={src} alt={alt} width={width} height={height} />
   );
 };

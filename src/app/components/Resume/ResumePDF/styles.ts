@@ -50,6 +50,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  flexRowCenterBetween: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   flexCol: {
     display: "flex",
     flexDirection: "column",
@@ -58,5 +64,8 @@ export const styles = StyleSheet.create({
     width: "13pt",
     height: "13pt",
     fill: "#525252", // text-neutral-600
+  },
+  borderBottom: {
+    borderBottom: '2pt solid #525252',
   },
 });

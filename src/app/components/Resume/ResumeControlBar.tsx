@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { useSetDefaultScale } from "components/Resume/hooks";
 import {
   MagnifyingGlassIcon,
@@ -14,12 +14,14 @@ const ResumeControlBar = ({
   documentSize,
   document,
   fileName,
+  handleDownloadDocx,
 }: {
   scale: number;
   setScale: (scale: number) => void;
   documentSize: string;
-  document: JSX.Element;
+  document: ReactElement;
   fileName: string;
+  handleDownloadDocx: () => void;
 }) => {
   const { scaleOnResize, setScaleOnResize } = useSetDefaultScale({
     setScale,
@@ -34,9 +36,10 @@ const ResumeControlBar = ({
   }, [update, document]);
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] items-center justify-center px-[var(--resume-padding)] text-gray-600 lg:justify-between">
+    <div
+      className="sticky bottom-0 left-0 right-0 flex h-[var(--resume-control-bar-height)] items-center justify-center px-[var(--resume-padding)] text-gray-600 lg:justify-between">
       <div className="flex items-center gap-2">
-        <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+        <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true"/>
         <input
           type="range"
           min={0.5}
@@ -64,9 +67,15 @@ const ResumeControlBar = ({
         href={instance.url!}
         download={fileName}
       >
-        <ArrowDownTrayIcon className="h-4 w-4" />
-        <span className="whitespace-nowrap">Download Resume</span>
+        <ArrowDownTrayIcon className="h-4 w-4"/>
+        <span className="whitespace-nowrap">Download .pdf</span>
       </a>
+      <button
+        className="ml-1 flex items-center gap-1 rounded-md border border-gray-300 px-3 py-0.5 hover:bg-gray-100 lg:ml-8"
+        onClick={handleDownloadDocx}>
+        <ArrowDownTrayIcon className="h-4 w-4"/>
+        <span className="whitespace-nowrap">Download .docx</span>
+      </button>
     </div>
   );
 };
